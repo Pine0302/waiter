@@ -3,6 +3,7 @@ package geektime.springbucks.waiter.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @Table(name = "T_COFFEE")
 @Builder
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,3 +27,4 @@ public class Coffee extends BaseEntity implements Serializable {
             parameters = {@org.hibernate.annotations.Parameter(name = "currencyCode", value = "CNY")})
     private Money price;
 }
+

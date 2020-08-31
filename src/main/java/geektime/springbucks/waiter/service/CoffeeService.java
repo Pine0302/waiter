@@ -26,4 +26,12 @@ public class CoffeeService {
     public List<Coffee> getCoffeeByName(List<String> names) {
         return coffeeRepository.findByNameInOrderById(names);
     }
+
+    public Coffee getCoffee(Long id){
+        return coffeeRepository.getOne(id);
+    }
+
+    public Coffee getCoffee(String name){
+        return coffeeRepository.findByName(name);
+    }
 }
