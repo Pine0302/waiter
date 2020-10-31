@@ -19,11 +19,11 @@ public class CoffeeOrderService {
     @Autowired
     private CoffeeOrderRepository orderRepository;
 
-    public CoffeeOrder getOrder(Long id){
+    public CoffeeOrder getOrder(Long id) {
         return orderRepository.getOne(id);
     }
 
-    public CoffeeOrder createOrder(String customer, Coffee...coffee) {
+    public CoffeeOrder createOrder(String customer, Coffee... coffee) {
         CoffeeOrder order = CoffeeOrder.builder()
                 .customer(customer)
                 .items(new ArrayList<>(Arrays.asList(coffee)))

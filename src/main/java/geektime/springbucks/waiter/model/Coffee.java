@@ -18,7 +18,6 @@ import java.io.Serializable;
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Coffee extends BaseEntity implements Serializable {
@@ -26,5 +25,13 @@ public class Coffee extends BaseEntity implements Serializable {
     @Type(type = "org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyMinorAmount",
             parameters = {@org.hibernate.annotations.Parameter(name = "currencyCode", value = "CNY")})
     private Money price;
+
+    @Override
+    public String toString() {
+        return "Coffee{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }
 

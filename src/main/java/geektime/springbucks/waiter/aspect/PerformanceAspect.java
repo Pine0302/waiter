@@ -30,7 +30,7 @@ public class PerformanceAspect {
     }
 
     @Pointcut("execution(* geektime.springbucks.waiter.repository..*(..))")
-    private void repositoryOps(){
+    private void repositoryOps() {
 
     }
 
