@@ -34,6 +34,30 @@ public class CoffeeController {
     @GetMapping(path = "/", params = "!name")
     @ResponseBody
     public List<Coffee> getAll() {
+        List<Coffee> coffees = coffeeService.getAllCoffee();
+
+        //lambda 表达式
+        coffees.forEach(coffee -> log.info("foreach:{}",coffee));
+        //等效匿名内部类
+        coffees.forEach(new Consumer<Coffee>() {
+            @Override
+            public void accept(Coffee coffee) {
+                log.info("foreach-anony:{}",coffee);
+            }
+        });
+
+        Iterator<Coffee> coffeeIterator = coffees.iterator();
+        //lambda 表达式
+        coffeeIterator.forEachRemaining(s->log.info("foreachRemaining:{}",s));
+        //等效匿名内部类
+        Iterator<Coffee> coffeeIteratorAnony = coffees.iterator();
+        coffeeIteratorAnony.forEachRemaining(new Consumer<Coffee>(){
+            @Override
+            public void accept(Coffee coffee) {
+                log.info("foreachRemaining-anony:{}",coffee);
+            }
+        });
+
         return coffeeService.getAllCoffee();
     }
 
