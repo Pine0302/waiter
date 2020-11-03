@@ -1,5 +1,6 @@
 package geektime.springbucks.waiter.controller;
 
+import geektime.springbucks.waiter.controller.exception.FormValidationException;
 import geektime.springbucks.waiter.controller.request.NewCoffeeRequest;
 import geektime.springbucks.waiter.model.Coffee;
 import geektime.springbucks.waiter.service.CoffeeService;
@@ -8,9 +9,11 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 @Controller
@@ -61,12 +65,14 @@ public class CoffeeController {
         return coffeeService.getAllCoffee();
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public Coffee getById(@PathVariable Long id) {
+    public ResponseEntity<Coffee> getById(@PathVariable Long id) {
         Coffee coffee = coffeeService.getCoffee(id);
-        log.info("Coffee {}:", coffee);
-        return coffee;
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .body(coffee);
     }
 
     @GetMapping(path = "/", params = "name")
