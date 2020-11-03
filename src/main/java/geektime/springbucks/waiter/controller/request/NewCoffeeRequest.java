@@ -16,5 +16,5 @@ public class NewCoffeeRequest {
         @NotEmpty
         private String name;
         @NotNull
-        private Money Price;
+        private Money price;
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -88,10 +89,21 @@ public class CoffeeController {
         return coffeeService.save(newCoffeeRequest.getName(), newCoffeeRequest.getPrice());
     }
 
-    @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "/nobind", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     public Coffee addJsonCoffeeWithoutBindingResult(@Valid @RequestBody NewCoffeeRequest newCoffee) {
+        return coffeeService.save(newCoffee.getName(), newCoffee.getPrice());
+    }
+
+    @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    public Coffee addJsonCoffee(@Valid @RequestBody NewCoffeeRequest newCoffee,BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            log.warn("Binding Errors: {}", bindingResult);
+            throw new ValidationException(bindingResult.toString());
+        }
         return coffeeService.save(newCoffee.getName(), newCoffee.getPrice());
     }
 
@@ -102,7 +114,7 @@ public class CoffeeController {
         if (bindingResult.hasErrors()) {
             // 这里先简单处理一下，后续讲到异常处理时会改
             log.warn("Binding Errors: {}", bindingResult);
-            return null;
+            throw new FormValidationException(bindingResult);
         }
         return coffeeService.save(newCoffeeRequest.getName(), newCoffeeRequest.getPrice());
     }
