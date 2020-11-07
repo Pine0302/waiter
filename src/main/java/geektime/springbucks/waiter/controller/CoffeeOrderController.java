@@ -1,7 +1,6 @@
 package geektime.springbucks.waiter.controller;
 
 
-import geektime.springbucks.waiter.controller.request.NewCoffeeRequest;
 import geektime.springbucks.waiter.controller.request.NewOrderRequest;
 import geektime.springbucks.waiter.model.Coffee;
 import geektime.springbucks.waiter.model.CoffeeOrder;
@@ -11,19 +10,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
 
 
-@Controller
+@RestController
 @RequestMapping("/order")
 @Slf4j
 public class CoffeeOrderController {
